@@ -41,7 +41,7 @@ async def index():
 
 app.include_router(
     router=contorller,
-    prefix="/api",
+    prefix="/dev-api/api",
     tags=["items"],
     # dependencies=[Depends(get_token_header)],
     responses={404: {"description": "Not found"}},

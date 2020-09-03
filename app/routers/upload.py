@@ -38,7 +38,7 @@ async def upload_image(
 
             if file_obj:
                 # 说明已经写入过该文件了
-                return {"code": 201, "msg": "Success, File already exists", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+                return {"code": 20000, "msg": "Success, File already exists", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
 
             # 文件属性
             file_dict = {
@@ -52,9 +52,9 @@ async def upload_image(
 
         with open(file_path, "wb") as f:
             f.write(content)
-        return {"code": 200, "msg": "Success", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+        return {"code": 20000, "msg": "Success", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
     except Exception as e:
-        return {"code": 500, "msg": str(e), "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+        return {"code": 50000, "msg": str(e), "time": time.strftime('%Y-%m-%d %H:%M:%S')}
 
 
 @router.post("/files")
