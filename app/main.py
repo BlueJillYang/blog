@@ -6,6 +6,7 @@ import sys
 sys.path.append(os.getcwd() + os.sep + "../")  # 添加系统路径 解决from import 问题
 
 from app.routers import contorller
+from app.core.config import env_api
 
 app = FastAPI()
 
@@ -45,8 +46,7 @@ async def index():
 
 app.include_router(
     router=contorller,
-    prefix="/prod-api/api",
-    # prefix="/dev-api/api",
+    prefix=f"/{env_api}/api",
     # tags=["items"],
     # dependencies=[Depends(get_token_header)],
     responses={404: {"description": "Not found"}},

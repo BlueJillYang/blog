@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Body
 from fastapi.responses import FileResponse
 from app import models, schemas
+from app.core.config import env_api
 
 
 router = APIRouter()
@@ -36,7 +37,7 @@ async def get_images_list(
         else:
             images = images_list[start_index: end_index]
 
-        images_data = [i.file_url for i in images]
+        images_data = [i.file_url.replace("dev-api", env_api) for i in images]
 
         return {"code": 20000, "msg": "查询成功", "total": images_size, "data": images_data}
 

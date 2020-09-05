@@ -5,11 +5,12 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, v
 
 
 random_secret = "RFqU71I_fSAgyPCBvNaOt_hxCZ9Qv-pEAUsnFGKA8-4"  # secrets.token_urlsafe(32)
+env_api = "prod-api"  # "dev-api"
 
 
 class Settings:
     provider = "mysql"
-    host = "172.17.0.1"
+    host = "localhost"  #"172.17.0.1"
     user = "root"
     passwd = "python123"
     POSTGRES_DB = "fastAPI"
