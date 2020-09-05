@@ -1,4 +1,4 @@
-from .ApiBase import BaseResponse, TimeResponse
+from .ApiBase import *
 
 from .token import *
 

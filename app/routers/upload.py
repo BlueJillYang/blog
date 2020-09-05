@@ -10,7 +10,7 @@ from pony import orm
 router = APIRouter()
 
 
-@router.post("/image", response_model=schemas.TimeResponse)
+@router.post("/image", response_model=schemas.UrlTimeResponse)
 async def upload_image(
         request: Request,
         file: UploadFile = File(...)
@@ -22,9 +22,8 @@ async def upload_image(
 
     save_file_path = os.path.join(os.getcwd(), r"app/static/images")
     # pic_uuid = str(uuid.uuid4())
-    # endfix = file.filename.rpartition(".")[-1]
     file_name = file.filename
-    file_path = os.path.join(save_file_path, file_name)
+    endfix = file_name.rpartition(".")[-1]
 
     try:
         content = await file.read()
@@ -32,29 +31,32 @@ async def upload_image(
         # 对文件进行MD5校验 重复的无需再写
         md5_vercation = md5(content)
         md5_hash = md5_vercation.hexdigest()
+        file_url = f'/dev-api/api/file/image/{md5_hash}'
+        file_path = os.path.join(save_file_path, f"{md5_hash}.{endfix}")
 
         with request.pony_session:
             file_obj = models.Upload.get(md5_hash=md5_hash)
 
             if file_obj:
                 # 说明已经写入过该文件了
-                return {"code": 20000, "msg": "Success, File already exists", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+                return {"code": 20000, "msg": "Success, File already exists", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
 
             # 文件属性
             file_dict = {
                 "file_name": file_name,
                 "file_path": file_path,
                 "md5_hash": md5_hash,
-                "note": ""
+                "file_url": file_url,
+                "note": "image"
             }
             models.Upload(**file_dict)
             orm.commit()
 
         with open(file_path, "wb") as f:
             f.write(content)
-        return {"code": 20000, "msg": "Success", "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+        return {"code": 20000, "msg": "Success", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
     except Exception as e:
-        return {"code": 50000, "msg": str(e), "time": time.strftime('%Y-%m-%d %H:%M:%S')}
+        return {"code": 50000, "msg": str(e), "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": ""}
 
 
 @router.post("/files")

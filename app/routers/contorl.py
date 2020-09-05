@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.routers import upload
+from app.routers import upload, file
 
 
 contorller = APIRouter()
@@ -9,6 +9,13 @@ contorller.include_router(
     upload.router,
     tags=["upload"],
     prefix="/upload"
+)
+
+
+contorller.include_router(
+    file.router,
+    tags=["file"],
+    prefix="/file"
 )
 
 
