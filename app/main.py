@@ -1,7 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from app.routers import contorller
 from pony.orm import db_session
+import os
+import sys
+sys.path.append(os.getcwd() + os.sep + "../")  # 添加系统路径 解决from import 问题
+
+from app.routers import contorller
 
 app = FastAPI()
 
