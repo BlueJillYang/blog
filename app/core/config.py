@@ -9,7 +9,7 @@ random_secret = "RFqU71I_fSAgyPCBvNaOt_hxCZ9Qv-pEAUsnFGKA8-4"  # secrets.token_u
 
 class Settings:
     provider = "mysql"
-    host = "localhost"
+    host = "172.17.0.1"
     user = "root"
     passwd = "python123"
     POSTGRES_DB = "fastAPI"
@@ -28,15 +28,15 @@ class Settings:
     EMAILS_ENABLED = True
     EMAIL_TEMPLATES_DIR = "/app/templates/email-templates/build"
 
-    EMAILS_FROM_EMAIL = "492645476@qq.com"
-    EMAILS_FROM_NAME = "Articanons"
-    PROJECT_NAME = "Jill"
+    EMAILS_FROM_EMAIL = "xx@qq.com"
+    EMAILS_FROM_NAME = ""
+    PROJECT_NAME = ""
 
     SMTP_TLS = True
     SMTP_PORT = 25
     SMTP_HOST = "smtp.qq.com"
     SMTP_USER = EMAILS_FROM_EMAIL
-    SMTP_PASSWORD = "kpmwrljojxsabgia"
+    SMTP_PASSWORD = ""
 
     SECRET_KEY = random_secret
     # 60 minutes * 24 hours * 8 days = 8 days
