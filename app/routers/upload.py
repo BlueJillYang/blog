@@ -20,7 +20,7 @@ async def upload_image(
     :return: upload result
     """
 
-    save_file_path = os.path.join(os.getcwd(), r"/static/images")
+    save_file_path = os.path.join(os.getcwd(), r"static/images")
     # pic_uuid = str(uuid.uuid4())
     file_name = file.filename
     endfix = file_name.rpartition(".")[-1]
