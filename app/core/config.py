@@ -10,7 +10,7 @@ env_api = "prod-api"  # "dev-api"
 
 class Settings:
     provider = "mysql"
-    host = "localhost"  #"172.17.0.1"
+    host = "172.17.0.1"
     user = "root"
     passwd = "python123"
     POSTGRES_DB = "fastAPI"
