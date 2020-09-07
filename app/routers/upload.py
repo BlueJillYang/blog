@@ -5,6 +5,7 @@ import time
 from app import schemas, models
 from hashlib import md5
 from pony import orm
+from app.core.config import env_api
 
 
 router = APIRouter()
@@ -20,7 +21,7 @@ async def upload_image(
     :return: upload result
     """
 
-    save_file_path = os.path.join(os.getcwd(), r"static/images")
+    save_file_path = os.path.join(os.getcwd().split("app")[0], r"app/static/images")
     # pic_uuid = str(uuid.uuid4())
     file_name = file.filename
     endfix = file_name.rpartition(".")[-1]
@@ -31,15 +32,18 @@ async def upload_image(
         # 对文件进行MD5校验 重复的无需再写
         md5_vercation = md5(content)
         md5_hash = md5_vercation.hexdigest()
-        file_url = f'/dev-api/api/file/image/{md5_hash}'
+        file_url = f'/{env_api}/api/file/image/{md5_hash}'
         file_path = os.path.join(save_file_path, f"{md5_hash}.{endfix}")
 
         with request.pony_session:
             file_obj = models.Upload.get(md5_hash=md5_hash)
 
             if file_obj:
+                file_obj.file_path = file_path
+                file_obj.file_url = file_url
+                orm.commit()
                 # 说明已经写入过该文件了
-                return {"code": 20000, "msg": "Success, File already exists", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
+                return {"code": 20000, "msg": "Success, file info updated", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
 
             # 文件属性
             file_dict = {
@@ -53,6 +57,7 @@ async def upload_image(
             orm.commit()
 
         with open(file_path, "wb") as f:
+            print("写入路径", file_path)
             f.write(content)
         return {"code": 20000, "msg": "Success", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
     except Exception as e:
