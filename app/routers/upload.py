@@ -41,6 +41,9 @@ async def upload_image(
             if file_obj:
                 file_obj.file_path = file_path
                 file_obj.file_url = file_url
+                if not os.path.exists(file_path):  # 判断如果不存在路径 需要重新写入
+                    with open(file_path, "wb") as f:
+                        f.write(content)
                 orm.commit()
                 # 说明已经写入过该文件了
                 return {"code": 20000, "msg": "Success, file info updated", "time": time.strftime('%Y-%m-%d %H:%M:%S'), "url": file_url}
