@@ -52,6 +52,7 @@ app.include_router(
     responses={404: {"description": "Not found"}},
 )
 
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app=app, port=8001, host="0.0.0.0")
