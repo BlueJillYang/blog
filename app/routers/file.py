@@ -2,6 +2,10 @@ from fastapi import APIRouter, Request, Body
 from fastapi.responses import FileResponse
 from app import models, schemas
 from app.core.config import env_api
+from app.extensions import logger
+import traceback
+
+logger.error(traceback.format_exc())
 
 
 router = APIRouter()
